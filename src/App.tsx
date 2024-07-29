@@ -1,8 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  useEffect(() => {
+    if (window.Worker) {
+      const worker = new Worker(new URL("./worker.js", import.meta.url));
+      worker.postMessage("hihi");
+      worker.onmessage = (e) => {
+        console.log("received data", e);
+      };
+    }
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
